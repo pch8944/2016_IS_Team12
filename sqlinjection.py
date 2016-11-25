@@ -3,7 +3,7 @@ import urllib, urllib2
 import sys
 import time
 
-class SQL():
+class SQL:
     def proc(url,post):
         gettest=1
         issp=0
