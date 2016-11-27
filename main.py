@@ -17,7 +17,5 @@ url = "http://127.0.0.1:/upload"
 file_name = "test.txt"
 # 파일 업로드
 uploader.upload(file_name, url)
-# white list 확인 , hite list 추가(확장자 log 파일을 화이트리스트에 추가)
-uploader.print_whitelist()
-uploader.add_whitelist('log')
+# white list 확인
 uploader.print_whitelist()
