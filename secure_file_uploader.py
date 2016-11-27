@@ -9,8 +9,8 @@ import requests
 class FileUploader:
     def __init__(self, white_list=None):
         if white_list is None:
-            # 기본 화이트 리스트 : 미리 정의된 확장자 doc,hwp,pdf,xls 파일만 업로드 가능
-            self.white_list = ['doc','hwp','pdf','xls']
+            # 기본 화이트 리스트 : 미리 정의된 확장자 txt,doc,hwp,pdf,xls 파일만 업로드 가능
+            self.white_list = ['txt','doc','hwp','pdf','xls']
         else:
             # 기본 화이트 리스트를 전달받으면 전달 받은 리스트 사용
             self.white_list.extend(white_list)
