@@ -18,7 +18,8 @@ class auth_sess:
             edit_url = "http://" + edit_url
 
         # cookie inspection
-        f_cookie = re.compile('cookie.*;')
+        print("#1. Cookie inspection")
+        f_cookie = re.compile('.*cookie\(.*;')
         result = f_cookie.findall(content)
 
         str1 = "".join(result)
@@ -35,22 +36,23 @@ class auth_sess:
                 key1 = str1.find('\'', cookie_point)
             key2 = str1.find('\"', key1+1)
             if key2 == -1:
-               key1 = str1.find('\'', cookie_point)
+               key2 = str1.find('\'', key1+1)
 
             print "cookie " + str1[key1:key2+1] + " is can be attacked by cookie injection"
-            print "vulnerable code: " + result[index]
+            print "vulnerable code: " + result[index].lstrip()
             cookie_point += 1
             index += 1
 
 
         # url jumping inspection (have to know board URL)
+        print("\n#2. URL jumping inspection")
 
         # soup = BeautifulSoup(urllib.request.urlopen('http://kupa.korea.ac.kr/btbkplus/commu/notice3.do?mode=edit&articleNo=22559&article.offset=0&articleLimit=10').read(), "lxml")
         # editData = soup.find_all('div', {'class': "login"})
         # soup = BeautifulSoup(content, "lxml")
         # webbrowser.open_new("http://kupa.korea.ac.kr/btbkplus/etc/login.do")
 
-        soup = BeautifulSoup(urllib2.urlopen(edit_url))
+        soup = BeautifulSoup(urllib2.urlopen(edit_url), "html.parser")
         text_area = soup.find_all('textarea')
         edit_area = soup.find_all('iframe')
 
@@ -58,16 +60,19 @@ class auth_sess:
         # print(edit_area)
 
         if len(text_area)!=0 or len(edit_area)!=0:
-            print("This website have url jumping threats")
+            print("This web site have url jumping vulnerability")
+
 
         # time out inspection (have to detect function file)
+        print("\n#3. Timeout function inspection")
+
         f_timeout = re.compile('timeout ?=')
         result_t =  f_timeout.findall(content.lower())
 
         # print(result_t)
 
-        if len(result_t) == 0:
-            print("Timeout function is not implemented in this web page")
+        if len(result_t) == 2:
+            print("Timeout function is not implemented in this web site\n")
 
 # call = auth_sess()
 # call.inspection("test.php", "www.naver.com")
