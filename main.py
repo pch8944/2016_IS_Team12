@@ -6,7 +6,7 @@ from secure_file_uploader import FileUploader
 sqlinj = SQL()
 sqlinj.proc(url,post)
 
-#auth_sess - file name, url need
+#auth_sess - folder name, url need
 f_name = raw_input()
 asm = auth_sess()
 filenames = asm.f_search(f_name)
