@@ -1,14 +1,22 @@
+import os
 import re
 import urllib2
 import webbrowser
 from bs4 import BeautifulSoup
 
 class auth_sess:
+    #folder search
+    def f_search(self, f_name):
+        filenames = os.listdir(f_name)
+        if not os.path.isdir(f_name):
+            print("Error: cannot find directory")
+            return 0
+        else:
+            return filenames
+
     # file open
-    def inspection(self, file_name, edit_url):
+    def inspection(self, folder_name, file_name, edit_url):
         # target = open("test.php", 'r')
-        target = open(file_name, 'r')
-        content = target.read()
 
         # get url
         # edit_url = input("url for modification : ")
@@ -19,29 +27,34 @@ class auth_sess:
 
         # cookie inspection
         print("#1. Cookie inspection")
-        f_cookie = re.compile('.*cookie\(.*;')
-        result = f_cookie.findall(content)
 
-        str1 = "".join(result)
+        for filename in file_name:
+            target = open(folder_name + "/" + filename, "r")
+            content = target.read()
 
-        index = 0
-        cookie_point = 0
-        while cookie_point >= 0:
-            cookie_point = str1.find('cookie', cookie_point)
-            # print(cookie_point)
-            if cookie_point == -1:
-                break
-            key1 = str1.find('\"', cookie_point)
-            if key1 == -1:
-                key1 = str1.find('\'', cookie_point)
-            key2 = str1.find('\"', key1+1)
-            if key2 == -1:
-               key2 = str1.find('\'', key1+1)
+            f_cookie = re.compile('.*cookie\(.*;')
+            result = f_cookie.findall(content)
 
-            print "cookie " + str1[key1:key2+1] + " is can be attacked by cookie injection"
-            print "vulnerable code: " + result[index].lstrip()
-            cookie_point += 1
-            index += 1
+            str1 = "".join(result)
+
+            index = 0
+            cookie_point = 0
+            while cookie_point >= 0:
+                cookie_point = str1.find('cookie', cookie_point)
+                # print(cookie_point)
+                if cookie_point == -1:
+                    break
+                key1 = str1.find('\"', cookie_point)
+                if key1 == -1:
+                    key1 = str1.find('\'', cookie_point)
+                key2 = str1.find('\"', key1+1)
+                if key2 == -1:
+                   key2 = str1.find('\'', key1+1)
+
+                print "cookie " + str1[key1:key2+1] + " is can be attacked by cookie injection"
+                print "vulnerable code: " + result[index].lstrip()
+                cookie_point += 1
+                index += 1
 
 
         # url jumping inspection (have to know board URL)
@@ -66,13 +79,21 @@ class auth_sess:
         # time out inspection (have to detect function file)
         print("\n#3. Timeout function inspection")
 
-        f_timeout = re.compile('timeout ?=')
-        result_t =  f_timeout.findall(content.lower())
+        for filename in file_name:
+            target = open(folder_name + "/" + filename, "r")
+            content = target.read()
 
-        # print(result_t)
+            f_timeout = re.compile('timeout ?=')
+            result_t =  f_timeout.findall(content.lower())
 
-        if len(result_t) == 2:
-            print("Timeout function is not implemented in this web site\n")
+            # print(result_t)
 
-# call = auth_sess()
-# call.inspection("test.php", "www.naver.com")
+            if len(result_t) == 2:
+                print("Timeout function is not implemented in this web site\n")
+
+# f_name = raw_input()
+# asm = auth_sess()
+# filenames = asm.f_search(f_name)
+
+# if len(filenames) != 0:
+                #     asm.inspection(f_name, filenames, "www.naver.com")
