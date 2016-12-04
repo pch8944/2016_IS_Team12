@@ -7,9 +7,13 @@ sqlinj = SQL()
 sqlinj.proc(url,post)
 
 #auth_sess - file name, url need
+f_name = raw_input()
 asm = auth_sess()
-asm.inpection(file_name,url)
+filenames = asm.f_search(f_name)
 
+if len(filenames) != 0:
+    asm.inspection(f_name, filenames, "www.naver.com")
+    
 #File upload
 uploader = FileUploader()
 # 파일을 업로드 할 url 설정 (여기서는 local server) , 업로드 할 파일 설정
