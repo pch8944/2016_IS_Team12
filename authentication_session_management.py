@@ -55,6 +55,7 @@ class auth_sess:
                 print "vulnerable code: " + result[index].lstrip()
                 cookie_point += 1
                 index += 1
+            target.close()
 
 
         # url jumping inspection (have to know board URL)
@@ -74,11 +75,14 @@ class auth_sess:
 
         if len(text_area)!=0 or len(edit_area)!=0:
             print("This web site have url jumping vulnerability")
+        else:
+            print("This web site have no url jumping vulnerability")
 
 
         # time out inspection (have to detect function file)
         print("\n#3. Timeout function inspection")
 
+        no_timeout = 0
         for filename in file_name:
             target = open(folder_name + "/" + filename, "r")
             content = target.read()
@@ -86,14 +90,18 @@ class auth_sess:
             f_timeout = re.compile('timeout ?=')
             result_t =  f_timeout.findall(content.lower())
 
-            # print(result_t)
+            if len(result_t) != 0:
+                no_timeout = 1
+            target.close()
 
-            if len(result_t) == 2:
-                print("Timeout function is not implemented in this web site\n")
+        if no_timeout != 1:
+            print("Timeout function is not implemented in this web site")
+        else:
+            print("Timeout function is implemented in this web site")
 
 # f_name = raw_input()
 # asm = auth_sess()
 # filenames = asm.f_search(f_name)
 
 # if len(filenames) != 0:
-                #     asm.inspection(f_name, filenames, "www.naver.com")
+    # asm.inspection(f_name, filenames, "www.naver.com")
