@@ -1,6 +1,8 @@
 from sqlinjection import SQL
 from authentication_session_management import auth_sess
 from secure_file_uploader import FileUploader
+from xss2 import xss
+from xss2 import execxss
 
 def f_search(f_name):
     filenames = os.listdir(f_name)
@@ -22,6 +24,10 @@ mod_url = raw_input("Mod URL (ex: http://kupa.korea.ac.kr/notice3.do?mode=edit&a
 #SQL Injection - target url, post parameter need
 sqlinj = SQL()
 sqlinj.proc(url,post)
+
+#Xss test - target url
+xss = execxss()
+xss.run(url)
 
 #auth_sess - folder name, url need
 asm = auth_sess()
