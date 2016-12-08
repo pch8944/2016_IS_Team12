@@ -15,6 +15,8 @@ def f_search(f_name):
 #folder input
 f_name = raw_input("Folder directory (ex: C:/test): ")   
 filenames = f_search(f_name)
+#target php input
+phpfile = raw_input("Path of the target php for sql injection test: ")
 
 #url input
 url = raw_input("URL : ")
@@ -24,7 +26,7 @@ mod_url = raw_input("Mod URL (ex: http://kupa.korea.ac.kr/notice3.do?mode=edit&a
 
 #SQL Injection - target url, post parameter need
 sqlinj = SQL()
-sqlinj.proc(url,post)
+sqlinj.proc(url,phpfile)
 
 #Xss test - target url
 xss = execxss()
