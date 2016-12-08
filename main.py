@@ -11,7 +11,7 @@ def f_search(f_name):
         return filenames
 
 #folder input
-f_name = raw_input()   
+f_name = raw_input("Folder directory (ex: C:/test): ")   
 filenames = f_search(f_name)
 
 #SQL Injection - target url, post parameter need
