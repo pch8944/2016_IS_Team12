@@ -14,6 +14,10 @@ def f_search(f_name):
 f_name = raw_input("Folder directory (ex: C:/test): ")   
 filenames = f_search(f_name)
 
+#url input
+url = raw_input("URL (ex: http://127.0.0.1:/upload): ")
+mod_url = raw_input("Mod URL : ")
+
 #SQL Injection - target url, post parameter need
 sqlinj = SQL()
 sqlinj.proc(url,post)
@@ -21,12 +25,11 @@ sqlinj.proc(url,post)
 #auth_sess - folder name, url need
 asm = auth_sess()
 if len(filenames) != 0:
-    asm.inspection(f_name, filenames, "www.naver.com")
+    asm.inspection(f_name, filenames, mod_url)
     
 #File upload
 uploader = FileUploader()
 # 파일을 업로드 할 url 설정 (여기서는 local server) , 업로드 할 파일 설정
-url = "http://127.0.0.1:/upload"
 file_name = "test.txt"
 # 파일 업로드
 uploader.upload(file_name, url)
