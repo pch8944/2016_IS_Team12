@@ -1,24 +1,26 @@
 import os
 import re
 import urllib2
-import webbrowser
 from bs4 import BeautifulSoup
 
 class auth_sess:
-    # file open
     def inspection(self, folder_name, file_name, edit_url):
+        # result file open
         f_result = open('result.txt', 'w')
 
+        # edit url to right format
         if edit_url.find('http') == -1:
             edit_url = "http://" + edit_url
 
         # cookie inspection
         f_result.write("#1. Cookie inspection\n")
 
+        # search all files in selected folder
         for filename in file_name:
             target = open(folder_name + "/" + filename, "r")
             content = target.read()
 
+            # find cookie declaration with regular experssion
             f_cookie = re.compile('.*cookie\(.*;')
             result = f_cookie.findall(content)
 
@@ -47,11 +49,7 @@ class auth_sess:
         # url jumping inspection (have to know board URL)
         f_result.write("\n#2. URL jumping inspection\n")
 
-        # soup = BeautifulSoup(urllib.request.urlopen('http://kupa.korea.ac.kr/btbkplus/commu/notice3.do?mode=edit&articleNo=22559&article.offset=0&articleLimit=10').read(), "lxml")
-        # editData = soup.find_all('div', {'class': "login"})
-        # soup = BeautifulSoup(content, "lxml")
-        # webbrowser.open_new("http://kupa.korea.ac.kr/btbkplus/etc/login.do")
-
+        # parsing selected web page with beautifulsoup
         soup = BeautifulSoup(urllib2.urlopen(edit_url), "html.parser")
         text_area = soup.find_all('textarea')
         edit_area = soup.find_all('iframe')
@@ -61,10 +59,10 @@ class auth_sess:
         else:
             f_result.write("This web site have no url jumping vulnerability\n")
 
-
         # time out inspection (have to detect function file)
         f_result.write("\n#3. Timeout function inspection\n")
 
+        # If there exist one timeout function then that site is secure
         no_timeout = 0
         for filename in file_name:
             target = open(folder_name + "/" + filename, "r")
