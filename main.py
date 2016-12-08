@@ -15,7 +15,8 @@ f_name = raw_input("Folder directory (ex: C:/test): ")
 filenames = f_search(f_name)
 
 #url input
-url = raw_input("URL (ex: http://127.0.0.1:/upload): ")
+url = raw_input("URL : ")
+upload_url = raw_input("Upload URL (ex: http://127.0.0.1:/upload): ")
 mod_url = raw_input("Mod URL : ")
 
 #SQL Injection - target url, post parameter need
@@ -32,6 +33,6 @@ uploader = FileUploader()
 # 파일을 업로드 할 url 설정 (여기서는 local server) , 업로드 할 파일 설정
 file_name = "test.txt"
 # 파일 업로드
-uploader.upload(file_name, url)
+uploader.upload(file_name, upload_url)
 # white list 확인
 uploader.print_whitelist()
