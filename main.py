@@ -10,15 +10,16 @@ def f_search(self, f_name):
     else:
         return filenames
 
+#folder input
+f_name = raw_input()   
+filenames = f_search(f_name)
+
 #SQL Injection - target url, post parameter need
 sqlinj = SQL()
 sqlinj.proc(url,post)
 
 #auth_sess - folder name, url need
-f_name = raw_input()
 asm = auth_sess()
-filenames = asm.f_search(f_name)
-
 if len(filenames) != 0:
     asm.inspection(f_name, filenames, "www.naver.com")
     
