@@ -16,7 +16,7 @@ def f_search(f_name):
 f_name = raw_input("Folder directory (ex: C:/test): ")   
 filenames = f_search(f_name)
 #target php input
-phpfile = raw_input("Path of the target php for sql injection test: ")
+phpfile = raw_input("Path of the target php that contains parameters' information: ")
 
 #url input
 url = raw_input("URL : ")
