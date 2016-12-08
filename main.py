@@ -18,6 +18,7 @@ filenames = f_search(f_name)
 
 #url input
 url = raw_input("URL : ")
+xss_url = raw_input("Xss test URL (ex: http://www.google.com/): ")
 upload_url = raw_input("Upload URL (ex: http://127.0.0.1:/upload): ")
 mod_url = raw_input("Mod URL (ex: http://kupa.korea.ac.kr/notice3.do?mode=edit&articleNo=22559: ")
 
@@ -27,7 +28,7 @@ sqlinj.proc(url,post)
 
 #Xss test - target url
 xss = execxss()
-xss.run(url)
+xss.run(xss_url)
 
 #auth_sess - folder name, url need
 asm = auth_sess()
