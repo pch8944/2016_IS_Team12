@@ -17,7 +17,7 @@ filenames = f_search(f_name)
 #url input
 url = raw_input("URL : ")
 upload_url = raw_input("Upload URL (ex: http://127.0.0.1:/upload): ")
-mod_url = raw_input("Mod URL : ")
+mod_url = raw_input("Mod URL (ex: http://kupa.korea.ac.kr/notice3.do?mode=edit&articleNo=22559: ")
 
 #SQL Injection - target url, post parameter need
 sqlinj = SQL()
