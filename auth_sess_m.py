@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 class auth_sess:
     def inspection(self, folder_name, file_name, edit_url):
         # result file open
-        f_result = open('result.txt', 'w')
+        f_result = open('auth_sess_result.txt', 'w')
 
         # edit url to right format
         if edit_url.find('http') == -1:
