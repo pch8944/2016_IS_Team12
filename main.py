@@ -26,7 +26,9 @@ mod_url = raw_input("Mod URL (ex: http://kupa.korea.ac.kr/notice3.do?mode=edit&a
 
 #SQL Injection - target url, post parameter need
 sqlinj = SQL()
-sqlinj.proc(url,phpfile)
+geturl = sqlinj.fileopen(path)
+geturl = url + geturl
+sqlinj.proc(geturl,phpfile)
 
 #Xss test - target url
 xss = execxss()
