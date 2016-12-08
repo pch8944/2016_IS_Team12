@@ -148,4 +148,3 @@ class SQL:
                 f.write('Time based SQL injection DETECT')
                     
 
-        print '\nDone'
