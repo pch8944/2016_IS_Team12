@@ -2,7 +2,7 @@ from sqlinjection import SQL
 from authentication_session_management import auth_sess
 from secure_file_uploader import FileUploader
 
-def f_search(self, f_name):
+def f_search(f_name):
     filenames = os.listdir(f_name)
     if not os.path.isdir(f_name):
         print("Error: cannot find directory")
