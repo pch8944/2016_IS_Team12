@@ -41,8 +41,8 @@ if len(filenames) != 0:
     
 #File upload
 uploader = FileUploader()
-# 파일을 업로드 할 url 설정 (여기서는 local server) , 업로드 할 파일 설정
-file_name = "test.txt"
+# 업로드 할 파일 설정
+file_name = "test.php"
 # 파일 업로드
 uploader.upload(file_name, upload_url)
 # white list 확인
