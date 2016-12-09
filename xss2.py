@@ -92,9 +92,9 @@ class Xss(object):
 
     #try xss attacks from parse()
     def scan(self):
-        print "Scanning " + str(len(self.comp)) + " * " + str(self.vectors) + " vectors"
         #for report
         f = open("XSSreport.txt", "w")
+        f.write("Scanning " + str(len(self.comp)) + " * " + str(self.vectors) + " vectors\n")
 
         #try get attacks
         for request in self.get:
@@ -155,7 +155,6 @@ class execxss:
             xss.parse(script)
         #try it
         xss.scan()
-        print "Succeed XSS :" + str(xss.success)
         #add # of succeed in report
         f = open("XSSreport.txt", "a")
         f.write("\nSucceed XSS :" + str(xss.success))
