@@ -76,7 +76,7 @@ class SQL:
                 response = urllib2.urlopen(req)
                 data2 = response.read() #get response
                 if data1!=data2 and i!=2: #if data is changed
-                    f.write('Union SQL injection #' + str(i) + ' DETECT\n')
+                    f.write('Union SQL injection #' + str(i) + ' DETECT - Payload : ' + payload + '\n')
                     break
                 data1=data2
             
@@ -86,7 +86,7 @@ class SQL:
                 response = urllib2.urlopen(req)
                 data2 = response.read() #get response
                 if data1!=data2 and i!=2: #if data is changed as true or false
-                    f.write('Boolean based SQL injection DETECT('+str(i)+')\n')
+                    f.write('Boolean based SQL injection DETECT('+str(i)+')- Payload : ' + payload + '\n')
                     break
                 data1=data2
             
@@ -97,7 +97,7 @@ class SQL:
             response = urllib2.urlopen(req)
             data2 = response.read()
             if data1!=data2: #compare data
-                f.write('Error based SQL injection DETECT\n')
+                f.write('Error based SQL injection DETECT - Payload : ' + "' having 1=1--" + '\n')
             
             req = urllib2.Request(dest+get+urllib.quote(' and 1=1')) #true value check
             response = urllib2.urlopen(req)
@@ -106,7 +106,7 @@ class SQL:
             response = urllib2.urlopen(req)
             data2 = response.read()
             if data1!=data2: #if data changed
-                f.write('Blind SQL injection DETECT\n') 
+                f.write('Blind SQL injection DETECT - Payload : ' + " and 1=0" + '\n') 
             
 
             t1=time.time()
@@ -123,7 +123,7 @@ class SQL:
             interval2 = t2-t1
 
             if interval2-interval1>0.9: #time check
-                f.write('Time based SQL injection DETECT\n')
+                f.write('Time based SQL injection DETECT - Payload : ' + ";waitfor delay '00:00:01'" + '\n')
 
         if issp==1:
             data1=''#same process for post
@@ -133,7 +133,7 @@ class SQL:
                 response = urllib2.urlopen(req)
                 data2 = response.read()
                 if len(data1)!=len(data2) and i!=2:
-                    f.write('Boolean based SQL injection DETECT('+str(i)+')\n')
+                    f.write('Boolean based SQL injection DETECT('+str(i)+') - Payload : ' + payload + '\n')
                     break
                 data1 = data2
                 
@@ -145,6 +145,6 @@ class SQL:
             t2=time.time()
 
             if t2-t1>4.5: #time check
-                f.write('Time based SQL injection DETECT')
+                f.write('Time based SQL injection DETECT - Payload : ' + "=, sleep(5)" + '')
                     
 
