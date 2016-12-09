@@ -1,6 +1,7 @@
+import os
 from sqlinjection import SQL
-from authentication_session_management import auth_sess
-from xss2 import xss
+from auth_sess_m import auth_sess
+from xss2 import Xss
 from xss2 import execxss
 from secure_file_uploader import FileUploader
 
@@ -41,9 +42,9 @@ if len(filenames) != 0:
     
 #File upload
 uploader = FileUploader()
-# 업로드 할 파일 설정
+# set upfile
 file_name = "test.php"
-# 파일 업로드
+# upload
 uploader.upload(file_name, upload_url)
-# white list 확인
+# white list check
 uploader.print_whitelist()
