@@ -27,7 +27,7 @@ mod_url = raw_input("Modify screen's URL (ex: http://kupa.korea.ac.kr/notice3.do
 
 #SQL Injection - target url, post parameter need
 sqlinj = SQL()
-geturl = sqlinj.fileopen(path)
+geturl = sqlinj.fileopen(phpfile)
 geturl = url + geturl
 sqlinj.proc(geturl,phpfile)
 
